@@ -14,16 +14,21 @@ const App = () => {
     // Promises in JS are objects representing eventual completion (or failure)
     // of an asynchronous operation. They have 3 states: pending, fulfilled, or rejected.
     // The .then() method is used to handle the result when the promise resolves.
+    // Fetch data from the Unsplash API using the search term stored in 'word'
     fetch(
       `https://api.unsplash.com/photos/random?query=${word}&client_id=${UNSPLASH_KEY}`
     )
+      // Convert the response to JSON
       .then((res) => res.json())
+      // Handle the JSON data
       .then((data) => {
         console.log(data);
       })
+      // Catch and log any errors that occur during the fetch operation
       .catch((err) => {
         console.log(err);
       });
+    setWord("");
   };
   console.log(process.env);
   return (
