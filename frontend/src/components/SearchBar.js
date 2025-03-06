@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Container,
   Row,
@@ -6,7 +6,7 @@ import {
   Form,
   FormControl,
   Button,
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
 const Searchbar = ({ word, setWord, handleSubmit }) => {
   return (
