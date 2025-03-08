@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import Searchbar from './components/SearchBar';
 import ImageCard from './components/ImageCard';
+import Welcome from './components/Welcome';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const UNSPLASH_KEY = process.env.REACT_APP_UNSPLASH_KEY;
@@ -39,23 +40,28 @@ const App = () => {
   return (
     <div>
       <Header title="Images Gallery Kuby" />
+
       <Searchbar
         word={word}
         setWord={setWord}
         handleSubmit={handleSearchSubmit}
       />
       <Container className="mt-4">
-        <Row xs={1} md={2} lg={3} className="g-4">
-          {images.map((image, i) => (
-            <Col key={i} className="pb-3">
-              <ImageCard
-                key={i}
-                image={image}
-                deleteImage={handleDeleteImage}
-              />
-            </Col>
-          ))}
-        </Row>
+        {images.length > 0 ? (
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {images.map((image, i) => (
+              <Col key={i} className="pb-3">
+                <ImageCard
+                  key={i}
+                  image={image}
+                  deleteImage={handleDeleteImage}
+                />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <Welcome />
+        )}
       </Container>
     </div>
   );

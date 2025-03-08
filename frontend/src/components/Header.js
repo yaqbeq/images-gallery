@@ -11,6 +11,7 @@ const Header = ({ title }) => {
     <Navbar style={navbarStyle}>
       <Container>
         <Logo
+          alt={title}
           style={{
             maxWidth: '25rem',
             maxHeight: '2rem',
