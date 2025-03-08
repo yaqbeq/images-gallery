@@ -2,6 +2,8 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import Searchbar from './components/SearchBar';
+import ImageCard from './components/ImageCard';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const UNSPLASH_KEY = process.env.REACT_APP_UNSPLASH_KEY;
 
@@ -10,7 +12,6 @@ const App = () => {
   const [images, setImages] = useState([]);
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log(word);
     // Promises in JS are objects representing eventual completion (or failure)
     // of an asynchronous operation. They have 3 states: pending, fulfilled, or rejected.
     // The .then() method is used to handle the result when the promise resolves.
@@ -22,7 +23,7 @@ const App = () => {
       .then((res) => res.json())
       // Handle the JSON data
       .then((data) => {
-        setImages([data, ...images]);
+        setImages([{ ...data, title: word }, ...images]);
       })
       // Catch and log any errors that occur during the fetch operation
       .catch((err) => {
@@ -30,7 +31,11 @@ const App = () => {
       });
     setWord('');
   };
-  console.log(process.env);
+
+  const handleDeleteImage = (id) => {
+    setImages(images.filter((image) => image.id !== id));
+  };
+
   return (
     <div>
       <Header title="Images Gallery Kuby" />
@@ -39,6 +44,19 @@ const App = () => {
         setWord={setWord}
         handleSubmit={handleSearchSubmit}
       />
+      <Container className="mt-4">
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {images.map((image, i) => (
+            <Col key={i} className="pb-3">
+              <ImageCard
+                key={i}
+                image={image}
+                deleteImage={handleDeleteImage}
+              />
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 };
