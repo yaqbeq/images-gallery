@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "flask>=3.1.0",
+    "httpx>=0.28.1",
+    "python-dotenv>=1.0.1",
 ]
 
 [dependency-groups]
@@ -42,6 +44,9 @@ select = [
     # pylint basic checks
     "PL",
 ]
+# Require key-value pairs in new line
+extend-select = ["E231", "E241"]
+
 # Ignore some common issues that might be too strict for a basic project
 ignore = [
     "E501",  # Line too long (handled by formatter)
