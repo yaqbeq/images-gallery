@@ -21,6 +21,7 @@ target-version = "py313"
 quote-style = "single"
 indent-style = "tab"
 docstring-code-format = true
+line-ending = "lf"
 
 [tool.ruff.lint]
 select = [
@@ -36,7 +37,6 @@ select = [
     "SIM",
     # isort
     "I",
-    # Add these useful rule sets:
     # pep8-naming
     "N",
     # pylint basic checks

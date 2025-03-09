@@ -1,10 +1,7 @@
 {
   /* FRONTEND - react */
-
-  // Sets indentation to 2 spaces for all files
   "editor.tabSize": 2,
 
-  // Configures which file types ESLint should validate
   "eslint.validate": [
     "html",
     "css",
@@ -14,74 +11,29 @@
     "typescriptreact"
   ],
 
-  // Runs ESLint fix on save (explicit means user must enable this behavior)
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
 
   /* API - python */
-
-  // Legacy setting pointing to the Python interpreter (deprecated)
-  "python.pythonPath": "api/.venv/bin/python",
-
-  // Modern replacement for pythonPath - points to the Python interpreter
   "python.defaultInterpreterPath": "api/.venv/bin/python",
-
-  // Automatically activates the virtual environment when opening a terminal
   "python.terminal.activateEnvironment": true,
-
-  // Prevents terminal commands from executing in file's directory (uses workspace root)
   "python.terminal.executeInFileDir": false,
-
-  // Adds API directory to Python path for imports and autocompletion
   "python.analysis.extraPaths": ["${workspaceFolder}/api"],
-
-  // Sets the default working directory for integrated terminal to API folder
   "terminal.integrated.cwd": "${workspaceFolder}/api",
 
-  // Python-specific editor settings
   "[python]": {
-    // Automatically formats Python code when saving files
     "editor.formatOnSave": true,
-
-    // Actions to perform when saving Python files
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
-      // Fix all linting issues (requires explicit enable)
       "source.fixAll": "explicit",
-      // Sort and organize imports (requires explicit enable)
       "source.organizeImports": "explicit"
     },
-    // Uses Ruff as the default formatter for Python files
-    "editor.defaultFormatter": "charliermarsh.ruff"
+    "editor.tabSize": 4
   },
 
   /* Ruff Python Linter and Formatter Settings */
-  // Enables the Ruff extension
-  "ruff.enable": true,
-
-  // Enables linting with Ruff
-  "ruff.lint.enable": true,
-
-  // Enables code formatting with Ruff
-  "ruff.format.enable": true,
-
-  // Enables import sorting with Ruff
-  "ruff.organizeImports": true,
-
-  // Enables automatic fixing of issues with Ruff
-  "ruff.fixAll": true,
-
-  // Specifies which Python interpreter Ruff should use
-  "ruff.interpreter": ["api/.venv/bin/python"],
-
-  // Specifies the path to the Ruff executable
-  "ruff.path": ["api/.venv/bin/ruff"],
-
-  // Uses Ruff from the environment rather than bundled version
-  "ruff.importStrategy": "fromEnvironment",
-
-  // Enables the ability to disable Ruff rules via inline comments
-  "ruff.codeAction.disableRuleComment": {
-    "enable": true
-  }
+  "python.linting.ruffEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.ruffPath": "api/.venv/bin/ruff"
 }
