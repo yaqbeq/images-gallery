@@ -19,7 +19,7 @@ target-version = "py313"
 
 [tool.ruff.format]
 quote-style = "single"
-indent-style = "tab"
+indent-style = "space"
 docstring-code-format = true
 line-ending = "lf"
 
