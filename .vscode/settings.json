@@ -12,6 +12,32 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  /* api */
-  "python.pythonPath": "api/.venv/bin/python"
+
+  /* API */
+  "python.pythonPath": "api/.venv/bin/python",
+  "python.defaultInterpreterPath": "api/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.terminal.executeInFileDir": false,
+  "python.analysis.extraPaths": ["${workspaceFolder}/api"],
+  "terminal.integrated.cwd": "${workspaceFolder}/api",
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  /* Ruff settings */
+  "ruff.enable": true,
+  "ruff.lint.enable": true,
+  "ruff.format.enable": true,
+  "ruff.organizeImports": true,
+  "ruff.fixAll": true,
+  "ruff.interpreter": ["api/.venv/bin/python"],
+  "ruff.path": ["api/.venv/bin/ruff"],
+  "ruff.importStrategy": "fromEnvironment",
+  "ruff.codeAction.disableRuleComment": {
+    "enable": true
+  }
 }

@@ -7,3 +7,50 @@ requires-python = ">=3.13"
 dependencies = [
     "flask>=3.1.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.10",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "tab"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # Add these useful rule sets:
+    # pep8-naming
+    "N",
+    # pylint basic checks
+    "PL",
+]
+# Ignore some common issues that might be too strict for a basic project
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "B905",  # `zip()` without an explicit `strict=` parameter
+    "PLR2004",  # Magic numbers
+]
+# Allow automatically fixing issues
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["api"]
