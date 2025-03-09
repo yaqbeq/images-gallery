@@ -9,10 +9,14 @@ load_dotenv()
 
 UNSPLASH_URL = 'https://api.unsplash.com/photos/random'
 UNSPLASH_KEY = os.getenv('UNSPLASH_KEY')
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 if not UNSPLASH_KEY:
     raise OSError('Please create .env file with UNSPLASH_KEY')
 app = Flask(__name__)
+
+
+app.config['DEBUG'] = DEBUG
 
 
 def fetch_subjects(headers, params=None):
