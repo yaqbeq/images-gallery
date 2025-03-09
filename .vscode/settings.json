@@ -19,8 +19,16 @@
   "python.defaultInterpreterPath": "api/.venv/bin/python",
   "python.terminal.activateEnvironment": true,
   "python.terminal.executeInFileDir": false,
-  "python.analysis.extraPaths": ["${workspaceFolder}/api"],
-  "terminal.integrated.cwd": "${workspaceFolder}/api",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/api/src",
+    "${workspaceFolder}/api"
+  ],
+  "terminal.integrated.cwd": "${workspaceFolder}/api/src",
+  "python.envFile": "${workspaceFolder}/api/.env",
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/api/src",
+    "${workspaceFolder}/api"
+  ],
 
   "[python]": {
     "editor.formatOnSave": true,
