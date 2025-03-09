@@ -1,4 +1,5 @@
 {
+  /* frontend */
   "editor.tabSize": 2,
   "eslint.validate": [
     "html",
@@ -10,5 +11,7 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
-  }
+  },
+  /* api */
+  "python.pythonPath": "api/.venv/bin/python"
 }
