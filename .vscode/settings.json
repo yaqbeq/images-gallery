@@ -1,4 +1,6 @@
 {
+  /* COMMON */
+
   /* FRONTEND - react */
   "editor.tabSize": 2,
 
@@ -41,6 +43,10 @@
   },
 
   /* Ruff Python Linter and Formatter Settings */
+  /* Disable Flake8 */
+  "python.linting.flake8Enabled": false,
+
+  /* Enable Ruff */
   "python.linting.ruffEnabled": true,
   "python.linting.enabled": true,
   "python.linting.ruffPath": "api/.venv/bin/ruff"
