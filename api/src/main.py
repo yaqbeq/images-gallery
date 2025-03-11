@@ -3,6 +3,7 @@ import os
 import httpx
 from dotenv import load_dotenv
 from flask import Flask, request
+from flask_cors import CORS
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,7 +15,7 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 if not UNSPLASH_KEY:
     raise OSError('Please create .env file with UNSPLASH_KEY')
 app = Flask(__name__)
-
+CORS(app, resources=r'/new-image')
 
 app.config['DEBUG'] = DEBUG
 
@@ -33,7 +34,7 @@ def fetch_subjects(headers, params=None):
             return []
 
 
-@app.route('/new-image')
+@app.route('/new-image', methods=['GET'])
 def new_image():
     word = request.args.get('query')
     headers = {'Accept-Version': 'v1', 'Authorization': f'Client-ID {UNSPLASH_KEY}'}
