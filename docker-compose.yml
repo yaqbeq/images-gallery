@@ -1,9 +1,14 @@
-version: "3.7"
+version: "3"
 services:
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
+    volumes:
+      - /app/node_modules # This volume maps the container's /app/node_modules directory to the host (container) so it is not overwritten by line below.
+      - ./frontend:/app # This volume maps the host's ./frontend directory to the container's /app directory, allowing changes on the host to be reflected in the container.
+    environment:
+      - WATCHPACK_POLLING=true
   api:
     build: ./api
     ports:

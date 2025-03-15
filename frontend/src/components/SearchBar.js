@@ -18,7 +18,7 @@ const Searchbar = ({ word, setWord, handleSubmit }) => {
               </Col>
               <Col xs={3}>
                 <Button variant="primary" type="submit">
-                  Search again
+                  Search
                 </Button>
               </Col>
             </Row>
