@@ -10,6 +10,8 @@ services:
       - ./frontend:/app # This volume maps the host's ./frontend directory to the container's /app directory, allowing changes on the host to be reflected in the container.
     environment:
       - WATCHPACK_POLLING=true
+    env_file:
+      - ./frontend/.env.development
   api:
     restart: always
     build: ./api
@@ -18,3 +20,5 @@ services:
     volumes:
       - /app/.venv
       - ./api:/app
+    env_file:
+      - ./api/.env.development

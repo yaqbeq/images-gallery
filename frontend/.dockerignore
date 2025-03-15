@@ -9,8 +9,7 @@ dist
 *.log
 
 # Ignore environment variables
-# .env
-# .env.local
+.env*
 
 # Ignore Docker files
 Dockerfile
