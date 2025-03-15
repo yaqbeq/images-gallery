@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  FormControl,
-  Button,
-} from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const Searchbar = ({ word, setWord, handleSubmit }) => {
   return (
@@ -14,7 +7,7 @@ const Searchbar = ({ word, setWord, handleSubmit }) => {
       <Row className="justify-content-center">
         <Col xs={12} md={8}>
           <Form onSubmit={handleSubmit}>
-            <Form.Row>
+            <Row>
               <Col xs={9}>
                 <Form.Control
                   type="text"
@@ -24,11 +17,11 @@ const Searchbar = ({ word, setWord, handleSubmit }) => {
                 />
               </Col>
               <Col xs={3}>
-                <Button varian="primary" type="submit">
-                  Search
+                <Button variant="primary" type="submit">
+                  Search again
                 </Button>
               </Col>
-            </Form.Row>
+            </Row>
           </Form>
         </Col>
       </Row>
