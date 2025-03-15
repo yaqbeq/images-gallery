@@ -49,5 +49,8 @@
   /* Enable Ruff */
   "python.linting.ruffEnabled": true,
   "python.linting.enabled": true,
-  "python.linting.ruffPath": "api/.venv/bin/ruff"
+  "python.linting.ruffPath": "api/.venv/bin/ruff",
+
+  /* Yaml extension settings */
+  "yaml.format.singleQuote": true
 }
