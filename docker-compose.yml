@@ -17,11 +17,14 @@ services:
     build: ./api
     ports:
       - "5050:5050"
+      - "5678:5678" # Add this line to expose debugpy port
     volumes:
       - /app/.venv
       - ./api:/app
     env_file:
       - ./api/.env.development
+    # Make service wait for debugger connection before starting (uncomment for debugging)
+    # command: python -m debugpy --wait-for-client --listen 0.0.0.0:5678 src/main.py
   mongo:
     image: mongo
     restart: always

@@ -66,7 +66,6 @@ def images():
     elif request.method == 'POST':
         # save image to the database
         image = request.json
-        print(image)
         image['_id'] = image['id']
         result = images_collection.insert_one(image)
         inserted_at = result.inserted_id
