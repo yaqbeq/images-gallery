@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import Searchbar from './components/SearchBar';
@@ -11,23 +12,32 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5050';
 const App = () => {
   const [word, setWord] = useState('');
   const [images, setImages] = useState([]);
-  const handleSearchSubmit = (e) => {
+
+  const handleSearchSubmit = async (e) => {
     e.preventDefault();
     // Promises in JS are objects representing eventual completion (or failure)
     // of an asynchronous operation. They have 3 states: pending, fulfilled, or rejected.
     // The .then() method is used to handle the result when the promise resolves.
     // Fetch data from the Unsplash API using the search term stored in 'word'
-    fetch(`${API_URL}/new-image?query=${word}`)
-      // Convert the response to JSON
-      .then((res) => res.json())
-      // Handle the JSON data
-      .then((data) => {
-        setImages([{ ...data, title: word }, ...images]);
-      })
-      // Catch and log any errors that occur during the fetch operation
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetch(`${API_URL}/new-image?query=${word}`)
+    //   // Convert the response to JSON
+    //   .then((res) => res.json())
+    //   // Handle the JSON data
+    //   .then((data) => {
+    //     setImages([{ ...data, title: word }, ...images]);
+    //   })
+    //   // Catch and log any errors that occur during the fetch operation
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    try {
+      const res = await axios.get(`${API_URL}/new-image?query=${word}`);
+      setImages([{ ...res.data, title: word }, ...images]);
+    } catch (err) {
+      console.log(err);
+    }
+
     setWord('');
   };
 
