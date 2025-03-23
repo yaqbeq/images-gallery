@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
 
-# Load environment variables from .env file
+# Load environment variables from .env file. Not needed if env file loaded via docker-compose
 load_dotenv()
 
 UNSPLASH_URL = 'https://api.unsplash.com/photos/random'
