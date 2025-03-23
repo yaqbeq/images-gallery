@@ -2,8 +2,13 @@ import os
 
 import httpx
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
+
+from mongo_client import mongo_client
+
+gallery = mongo_client.gallery
+images_collection = gallery.images
 
 # Load environment variables from .env file. Not needed if env file loaded via docker-compose
 load_dotenv()
@@ -49,6 +54,23 @@ def new_image():
     headers = {'Accept-Version': 'v1', 'Authorization': f'Client-ID {UNSPLASH_KEY}'}
     params = {'query': word}
     return fetch_subjects(headers, params)
+
+
+@app.route('/images', methods=['GET', 'POST'])
+def images():
+    if request.method == 'GET':
+        # read images from the database
+        images = images_collection.find({})
+        return jsonify([image for image in images])
+
+    elif request.method == 'POST':
+        # save image to the database
+        image = request.json
+        print(image)
+        image['_id'] = image['id']
+        result = images_collection.insert_one(image)
+        inserted_at = result.inserted_id
+        return {'inserted_at': inserted_at}
 
 
 if __name__ == '__main__':
