@@ -57,6 +57,46 @@ const App = () => {
     setImages(images.filter((image) => image.id !== id));
   };
 
+  const handleSaveImage = async (id) => {
+    const imageToSave = images.find((image) => image.id === id);
+
+    // 1. Optimistically update the UI first
+    setImages(
+      images.map((image) =>
+        image.id === id ? { ...image, saved: true } : image
+      )
+    );
+
+    try {
+      // 2. Make the API call
+      // Send the original image data structure the backend expects,
+      // potentially without the temporary 'saved' flag if the backend adds it.
+      // Or ensure the backend handles the 'saved' flag correctly.
+      // We use 'imageToSave' here which doesn't have the 'saved: true' yet,
+      // which might be what your backend expects. Adjust if necessary.
+      const res = await axios.post(`${API_URL}/images`, {
+        ...imageToSave,
+        saved: true,
+      }); // Ensure backend gets the saved status
+
+      // Optional: Check response if needed, but the UI is already updated.
+      if (!res.data?.inserted_id) {
+        // Handle cases where backend indicates failure despite HTTP success (if applicable)
+        console.warn('Backend did not confirm insertion.');
+        // Optionally revert UI, though often optimistic updates stay unless there's a clear error
+      }
+    } catch (err) {
+      console.error('Failed to save image:', err);
+      // 3. Revert the state if the API call fails
+      alert('Failed to save image. Please try again.'); // Inform the user
+      setImages(
+        images.map(
+          (image) => (image.id === id ? { ...image, saved: false } : image) // Revert the saved status
+        )
+      );
+    }
+  };
+
   return (
     <div>
       <Header title="Images Gallery Kuby" />
@@ -75,6 +115,7 @@ const App = () => {
                   key={i}
                   image={image}
                   deleteImage={handleDeleteImage}
+                  saveImage={handleSaveImage}
                 />
               </Col>
             ))}
