@@ -16,6 +16,15 @@ const ImageCard = ({ image, deleteImage, saveImage }) => {
           </Button>
         )}
       </Card.Body>
+      <Card.Footer className="text-muted text-center">
+        Author: {image.user.name ? image.user.name : 'No author name'}
+        <br />
+        {image.user.portfolio_url && (
+          <Card.Link href={image.user.portfolio_url} target="_blank">
+            View Author Portfolio
+          </Card.Link>
+        )}
+      </Card.Footer>
     </Card>
   );
 };

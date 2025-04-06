@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
@@ -7,17 +7,23 @@ import ImageCard from './components/ImageCard';
 import Welcome from './components/Welcome';
 import { Container, Row, Col } from 'react-bootstrap';
 import Spinner from './components/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5050';
 
 const App = () => {
   const [word, setWord] = useState('');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const initialToastShown = useRef(false);
   const getSavedImages = async () => {
     try {
       const res = await axios.get(`${API_URL}/images`);
       setImages(res.data || []);
       setLoading(false);
+      if (!initialToastShown.current) {
+        toast.success('Images loaded successfully!');
+        initialToastShown.current = true;
+      }
     } catch (err) {
       console.log(err);
     }
@@ -48,8 +54,10 @@ const App = () => {
     try {
       const res = await axios.get(`${API_URL}/new-image?query=${word}`);
       setImages([{ ...res.data, title: word }, ...images]);
+      toast.info(`New image ${word.toUpperCase()} was found`);
     } catch (err) {
       console.log(err);
+      toast.error(`Error fetching image ${word.toUpperCase()}: ${err.message}`);
     }
 
     setWord('');
@@ -61,7 +69,11 @@ const App = () => {
 
       // Handle successful deletion (2xx status codes)
       if (res.status >= 200 && res.status < 300) {
+        toast.warn(
+          `Image ${images.find((i) => i.id === id).title.toUpperCase()} was deleted`
+        );
         setImages(images.filter((image) => image.id !== id));
+
         return;
       }
 
@@ -75,7 +87,7 @@ const App = () => {
         err.response?.data?.error || err.message || 'Unknown error';
 
       console.error(`Error deleting image (${statusCode}):`, errorMessage);
-
+      toast.error(`Error deleting image (${statusCode}): ${errorMessage}`);
       // Provide user feedback based on status code
       if (statusCode === 404) {
         alert('Image not found. It may have been already deleted.');
@@ -117,8 +129,12 @@ const App = () => {
         console.warn('Backend did not confirm insertion.');
         // Optionally revert UI, though often optimistic updates stay unless there's a clear error
       }
+      toast.info(`Image ${imageToSave.title.toUpperCase()} was saved`);
     } catch (err) {
       console.error('Failed to save image:', err);
+      toast.error(
+        `Failed to save image ${imageToSave.title.toUpperCase()}: ${err.message}`
+      );
       // 3. Revert the state if the API call fails
       alert('Failed to save image. Please try again.'); // Inform the user
       setImages(
@@ -163,6 +179,18 @@ const App = () => {
           </Container>
         </>
       )}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="light"
+      />
     </div>
   );
 };
