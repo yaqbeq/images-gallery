@@ -20,7 +20,7 @@ FLASK_ENV = os.getenv('FLASK_ENV', 'production')
 if not UNSPLASH_KEY:
     raise OSError('Please create .env file with UNSPLASH_KEY')
 app = Flask(__name__)
-CORS(app, resources=[r'/new-image', r'/images'])
+CORS(app, resources=[r'/new-image', r'/images', r'/images/<image_id>'])
 
 # Set debug mode based on environment
 app.config['DEBUG'] = FLASK_ENV == 'development'
@@ -70,6 +70,17 @@ def images():
         result = images_collection.insert_one(image)
         inserted_at = result.inserted_id
         return {'inserted_at': inserted_at}
+
+
+@app.route('/images/<string:image_id>', methods=['DELETE'])
+def delete_image(image_id):
+    result = images_collection.delete_one({'_id': image_id})
+    if not result:
+        return jsonify({'error': 'Image was not deleted, please try again later'}), 500
+    elif result.deleted_count == 1:
+        return jsonify({'message': 'Image deleted successfully'}), 200
+    else:
+        return jsonify({'error': 'Image not found'}), 404
 
 
 if __name__ == '__main__':
