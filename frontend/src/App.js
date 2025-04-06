@@ -53,8 +53,38 @@ const App = () => {
     setWord('');
   };
 
-  const handleDeleteImage = (id) => {
-    setImages(images.filter((image) => image.id !== id));
+  const handleDeleteImage = async (id) => {
+    try {
+      const res = await axios.delete(`${API_URL}/images/${id}`);
+
+      // Handle successful deletion (2xx status codes)
+      if (res.status >= 200 && res.status < 300) {
+        setImages(images.filter((image) => image.id !== id));
+        return;
+      }
+
+      // If we get here, we have a non-error response that isn't in the 2xx range
+      console.warn(`Unexpected response status: ${res.status}`, res.data);
+      alert(`Could not delete image: ${res.data?.error || 'Unknown error'}`);
+    } catch (err) {
+      // Extract error details for better error reporting
+      const statusCode = err.response?.status;
+      const errorMessage =
+        err.response?.data?.error || err.message || 'Unknown error';
+
+      console.error(`Error deleting image (${statusCode}):`, errorMessage);
+
+      // Provide user feedback based on status code
+      if (statusCode === 404) {
+        alert('Image not found. It may have been already deleted.');
+        // Remove from UI anyway since it doesn't exist on server
+        setImages(images.filter((image) => image.id !== id));
+      } else if (statusCode === 500) {
+        alert('Server error. Please try again later.');
+      } else {
+        alert(`Failed to delete image: ${errorMessage}`);
+      }
+    }
   };
 
   const handleSaveImage = async (id) => {

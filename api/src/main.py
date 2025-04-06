@@ -20,7 +20,14 @@ FLASK_ENV = os.getenv('FLASK_ENV', 'production')
 if not UNSPLASH_KEY:
     raise OSError('Please create .env file with UNSPLASH_KEY')
 app = Flask(__name__)
-CORS(app, resources=[r'/new-image', r'/images', r'/images/<image_id>'])
+CORS(
+    app,
+    resources={
+        r'/new-image': {'origins': '*'},
+        r'/images': {'origins': '*'},
+        r'/images/*': {'origins': '*'},  # Note the wildcard path
+    },
+)
 
 # Set debug mode based on environment
 app.config['DEBUG'] = FLASK_ENV == 'development'
