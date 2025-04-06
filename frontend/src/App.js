@@ -6,16 +6,18 @@ import Searchbar from './components/SearchBar';
 import ImageCard from './components/ImageCard';
 import Welcome from './components/Welcome';
 import { Container, Row, Col } from 'react-bootstrap';
-
+import Spinner from './components/Spinner';
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5050';
 
 const App = () => {
   const [word, setWord] = useState('');
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const getSavedImages = async () => {
     try {
       const res = await axios.get(`${API_URL}/images`);
       setImages(res.data || []);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -130,30 +132,37 @@ const App = () => {
   return (
     <div>
       <Header title="Images Gallery Kuby" />
-
-      <Searchbar
-        word={word}
-        setWord={setWord}
-        handleSubmit={handleSearchSubmit}
-      />
-      <Container className="mt-4">
-        {images.length > 0 ? (
-          <Row xs={1} md={2} lg={3} className="g-4">
-            {images.map((image, i) => (
-              <Col key={i} className="pb-3">
-                <ImageCard
-                  key={i}
-                  image={image}
-                  deleteImage={handleDeleteImage}
-                  saveImage={handleSaveImage}
-                />
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <Welcome />
-        )}
-      </Container>
+      {loading ? (
+        <Spinner />
+      ) : (
+        // We need jsx fragment <> here to wrap multiple components
+        // without adding an extra node to the DOM
+        <>
+          <Searchbar
+            word={word}
+            setWord={setWord}
+            handleSubmit={handleSearchSubmit}
+          />
+          <Container className="mt-4">
+            {images.length > 0 ? (
+              <Row xs={1} md={2} lg={3} className="g-4">
+                {images.map((image, i) => (
+                  <Col key={i} className="pb-3">
+                    <ImageCard
+                      key={i}
+                      image={image}
+                      deleteImage={handleDeleteImage}
+                      saveImage={handleSaveImage}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <Welcome />
+            )}
+          </Container>
+        </>
+      )}
     </div>
   );
 };
